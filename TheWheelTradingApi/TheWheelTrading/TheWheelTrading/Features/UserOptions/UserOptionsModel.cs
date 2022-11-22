@@ -20,9 +20,9 @@ namespace TheWheelTrading.Features.UserOptions
         public int DaysHeld => (ExpirationDate - OpenDate).Days;
         public decimal Profit => BuyOrSell == BuyOrSell.Sell ? 100 * NumberOfContracts * Premium - Fees : 100 * NumberOfContracts * -Premium - Fees;
         public decimal CashReserverd => BuyOrSell == BuyOrSell.Sell && CallOrPut == CallOrPut.Put ? StrikePrice * 100 * NumberOfContracts : 0;
-        public decimal AnnualizedRoR => BuyOrSell == BuyOrSell.Sell && CallOrPut == CallOrPut.Put ? (Profit / CashReserverd) / DaysHeld * 365 :
-            (BuyOrSell == BuyOrSell.Sell && CallOrPut == CallOrPut.Call ? (Profit / (100 * NumberOfContracts * StrikePrice)) / DaysHeld * 365 : 0);
-        public decimal WeeklyRor => BuyOrSell == BuyOrSell.Sell && CallOrPut == CallOrPut.Put ? (Profit / CashReserverd) / 7 :
-            (BuyOrSell == BuyOrSell.Sell && CallOrPut == CallOrPut.Call ? (Profit / (100 * NumberOfContracts * StrikePrice)) / 7 : 0);
+        public string AnnualizedRoR => (BuyOrSell == BuyOrSell.Sell && CallOrPut == CallOrPut.Put ? (Profit / CashReserverd) / DaysHeld * 365 :
+            (BuyOrSell == BuyOrSell.Sell && CallOrPut == CallOrPut.Call ? (Profit / (100 * NumberOfContracts * StrikePrice)) / DaysHeld * 365 : 0)).ToString("P2");
+        public string WeeklyRor => (BuyOrSell == BuyOrSell.Sell && CallOrPut == CallOrPut.Put ? (Profit / CashReserverd) / 7 * 365 :
+            (BuyOrSell == BuyOrSell.Sell && CallOrPut == CallOrPut.Call ? (Profit / (100 * NumberOfContracts * StrikePrice)) / 7 * 365 : 0)).ToString("P2");
     }
 }

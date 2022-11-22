@@ -16,16 +16,15 @@ import Col from 'react-bootstrap/Col';
 
 function App() {
   return (
-    <div className="App">
+    <div className='App bg-dark'>
        <Router>
       <header>
         <NavbarComp/>
       </header>
-      <main>
+      <main className="bg-dark">
       <Container className="bg-dark">
-      <Row>
-        <Col sm={7}>sm=8</Col>
-        <Col className="bg-dark text-light" sm={5}> 
+      <Row>       
+        <Col className="bg-dark text-light" sm={12}> 
         <Routes>
           <Route path="/home" element={<Home />}>        
           </Route>
@@ -37,8 +36,8 @@ function App() {
     </Container>  
       </main>
       </Router>
-      <footer className='py-5 my-5 bg-dark'>
-          <Container className='px-4'>
+      <footer className='bg-dark'>        
+          <Container className='py-5 my-5 px-4 bg-dark'>
             <p className='text-center text-white'>Copyright $copy; Your Website 2022</p>
           </Container>
       </footer>

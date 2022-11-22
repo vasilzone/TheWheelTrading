@@ -19,7 +19,6 @@ export default class Api {
       headers.Authorization = `Bearer ${this.api_token}`
     } */
     this.client = axios.create({ baseURL: this.api_url, timeout: 31000, headers: headers })
-
     return this.client
   }
   getUserList = (params) => {

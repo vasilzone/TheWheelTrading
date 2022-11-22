@@ -5,51 +5,69 @@ import ReadOnlyRow from './ReadOnlyRow';
 import EditableRow from './EditableRow';
 import Api from '../helper/Api'
 
-class TableEditable extends React.Component {
-   
+class TableEditable extends React.Component {   
 
     constructor(props){ 
         super(props)
-        debugger
      
-            var api = new Api()
-            api.getUserList().then((response) => {
-              debugger; //setPosts(response)
-            });
-        
-        // Set initial state        
-        this.state = { contacts: [
-            {
-                "id":"1",
-                "firstName":"Mark",
-                "lastName":"Otto",
-                "username":"@mdo"
-            },
-            {
-                "id":"2",
-                "firstName":"Jacob",
-                "lastName":"Thornton",
-                "username":"@fat"
-            },
-            {
-                "id":"3",
-                "firstName":"arry the Bird",
-                "lastName":"Larry 2",
-                "username":"@twitter"
-            }
+          
+        this.state = { contacts: [          
         ],       
         editContactId: null,
         editContact: {
             id:"",
-            firstName:"",
-            lastName:"",
-            userName:""
+            ticker:"",
+            openDate:"",
+            expirationDate:"",
+            callOrPut:"",
+            buyOrSell:"",
+            strikePrice:"",
+            premium:"",
+            numberOfContracts:"",
+            fees:"",
+            assigned:"",
+            daysHeld:"",
+            profit:"",
+            cashReserverd:"",
+            annualizedRoR:"",
+            weeklyRor:""
         }
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     }
+
+    componentDidMount() {      
+      
+      var api = new Api()
+      api.getUserList().then((response) => {
+        debugger;
+        this.setState(
+          { contacts: response
+          ,       
+          editContactId: null,
+          editContact: {
+              id:"",
+              ticker:"",
+              openDate:"",
+              expirationDate:"",
+              callOrPut:"",
+              buyOrSell:"",
+              strikePrice:"",
+              premium:"",
+              numberOfContracts:"",
+              fees:"",
+              assigned:"",
+              daysHeld:"",
+              profit:"",
+              cashReserverd:"",
+              annualizedRoR:"",
+              weeklyRor:""
+          } })        
+      });
+   }
     
     handleSubmit(event) {      
         debugger;
@@ -59,15 +77,41 @@ class TableEditable extends React.Component {
         var nextId = ++maxId;
 
         this.setState(previousState => ({
-            contacts: [...previousState.contacts, {"id":nextId,
-                                            "firstName":'',
-                                            "lastName":'',
-                                            "userName":'',}],
+            contacts: [...previousState.contacts, {
+                                            id:nextId,
+                                            ticker:'',
+                                            openDate:'',
+                                            expirationDate:'',
+                                            callOrPut:"",
+                                            buyOrSell:"",
+                                            strikePrice:"",
+                                            premium:"",
+                                            numberOfContracts:"",
+                                            fees:"",
+                                            assigned:"",
+                                            daysHeld:"",
+                                            profit:"",
+                                            cashReserverd:"",
+                                            annualizedRoR:"",
+                                            weeklyRor:""
+                                          }],
                                             editContactId: this.state.id,
                                             editContact:{ id:this.state.id,
-                                                firstName: '',
-                                                lastName: '',
-                                                username: ''
+                                                ticker: '',
+                                                openDate: '',
+                                                expirationDate: '',
+                                                callOrPut:'',
+                                                buyOrSell:"",
+                                                strikePrice:"",
+                                                premium:"",
+                                                numberOfContracts:"",
+                                                fees:"",
+                                                assigned:"",
+                                                daysHeld:"",
+                                                profit:"",
+                                                cashReserverd:"",
+                                                annualizedRoR:"",
+                                                weeklyRor:""
                                             }
                                             
         }));        
@@ -83,16 +127,39 @@ class TableEditable extends React.Component {
       });      
     }
 
+    handleChange (event) {
+
+      debugger;
+      var name = event.target.name;     
+
+      this.setState({
+        editContact :{ [name]:event.target.value}
+      });
+     
+    };
+
         
     handleClick(event,contactId,field) {     
         var currentRecord = this.state.contacts.find(element => element.id === contactId);
-        debugger
+        
         this.setState({
-            editContactId: contactId,
-            editContact:{ id:currentRecord.id,
-                firstName: currentRecord.firstName,
-                lastName: currentRecord.lastName,
-                username: currentRecord.username
+              editContactId: contactId,
+              editContact:{ id:currentRecord.id,
+              ticker: currentRecord.ticker,
+              openDate: currentRecord.openDate,
+              expirationDate: currentRecord.expirationDate,
+              callOrPut: currentRecord.callOrPut,
+              buyOrSell: currentRecord.buyOrSell,
+              strikePrice: currentRecord.strikePrice,
+              premium: currentRecord.premium,
+              numberOfContracts: currentRecord.numberOfContracts,                    
+              fees: currentRecord.fees,
+              assigned: currentRecord.assigned,
+              daysHeld: currentRecord.daysHeld,
+              profit: currentRecord.profit,
+              cashReserverd: currentRecord.cashReserverd,
+              annualizedRoR: currentRecord.annualizedRoR,
+              weeklyRor: currentRecord.weeklyRor
             }
           });
         event.preventDefault();
@@ -106,22 +173,34 @@ class TableEditable extends React.Component {
       <thead>
         <tr>
           <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
+          <th>Ticker</th>
+          <th>Open Date</th>
+          <th>Expiration Date</th>
+          <th>Call Or Put</th>        
+          <th>Buy Or Sell</th>  
+          <th>Strike Price</th>   
+          <th>Premium</th>   
+          <th>Number Of Contracts</th>       
+          <th>Fees</th>     
+          <th>Assigned</th>     
+          <th>Days Held</th>     
+          <th>Profit</th>     
+          <th>Cash Reserverd</th>     
+          <th>Annualized RoR</th>     
+          <th>Weekly Ror</th>                        
         </tr>
       </thead>
       <tbody>
         {
             this.state.contacts.map((contact)=>
             <Fragment>
-                {this.state.editContactId===contact.id? <EditableRow editableContact = { this.state.editContact } />:<ReadOnlyRow handleClick={this.handleClick} contact={contact}/> }            
+                {this.state.editContactId===contact.id? <EditableRow handleChange={this.handleChange} editableContact = { this.state.editContact } />:<ReadOnlyRow handleClick={this.handleClick} contact={contact}/> }            
             </Fragment>
             ) 
         }   
       </tbody>
     </Table> 
-    <button type="submit" class="btn btn-dark" onClick={this.handleSubmit}>Submit</button>
+    <button type="submit" class="btn btn-dark" onClick={this.handleSubmit}>Add Row</button>
     </form>   
             </div>
         );
